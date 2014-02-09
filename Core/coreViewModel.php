@@ -16,25 +16,10 @@ abstract class coreViewModel extends Eloquent implements ICoreViewModel
         $this->setup();
     }
 
-    //abstract protected function setup(); 
-    //abstract protected function make(); 
-
     public function setup()
-    {}
-
-    /*
-
-    public static function validate($input = null)
     {
-        if (is_null($input))
-        {
-            $input = Input::all();
-        }
-
-        $v = Validator::make($input, static::$rules);
-        return $v;
-    }*/
-    
+        
+    }
 }
 
 interface ICoreViewModel

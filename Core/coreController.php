@@ -29,8 +29,6 @@ abstract class coreController extends platformController implements ICoreControl
 	protected $view_user_edit;
 	protected $view_user_show;
 
-	//protected $return_type	 = 0;
-
 	protected $key_field = 'id';
 	protected $default_search_field = 'id';
 	protected $pagination_count = 10;
@@ -67,17 +65,11 @@ abstract class coreController extends platformController implements ICoreControl
 
 		return $_model::select($this->search_field)
 				->where($this->search_field, 'like', '%' . trim($key) . '%')->get();
-
-		//return DB::select("select category_main from ina_dir_1_tbl_sys_category where " . $this->search_field . " like '%" . trim($key) . "%' ", array(1));
-		//return DB::table('tbl_sys_category')->select($this->search_field)->where($this->search_field, 'like', '%' . trim($key) . '%')->get();
-
 	}
 
 	public function similar_json_list($key = null)
 	{
 		$_model = new $this->model_name;
-		//$use_model = eloquent_to_json();
-		//DD(DB::table('biz_category')->toJson());
 		return json_encode($use_model['attributes']);
 	}
 
@@ -102,9 +94,9 @@ abstract class coreController extends platformController implements ICoreControl
 
 
 	private function getCurrentView()
-	{}
+	{
 
-
+	}
 
 	public function get_single($id)
 	{
@@ -181,36 +173,14 @@ abstract class coreController extends platformController implements ICoreControl
 			$use_model -> save();
 			$base_id = $use_model -> id;
 		}
-		//echo Input::has('return');
-		/*
-		if (Input::has('return'))
-		{
-			echo "{" . $this->json_model_key . ":[" . json_encode($use_model['attributes']) . "]}";
-		}
-		else
-		{
-			//echo "saved";	
-			
-			//echo json_encode($use_model['attributes']);
-		}
-		*/
-
 
 		$message = '"success":[{"message":"Saved"}]';
-
-		//echo $message;
 		echo '{"' . $this->json_model_key . '":[' . json_encode($use_model['attributes']) . '] ,'  .  $message . '}';
-
-		//die('{"error":[{"message":"' . implode($validation->messages()->all(),'"},{"message":"') . '"}]}');
-		//echo $base_id;
 		exit ;
 	}
 
 	private function put_single_save($id)
 	{
-
-
-echo "d";
 
 		$input			= Input::all();
 		$errors			= array();
@@ -218,15 +188,12 @@ echo "d";
 		$input_model 	= $input;
 		$_model 		= $this->model_name;
 
-		
 		$validation = $_model::validate($input_model);
 		if ($validation->fails())
 		{
 			die('{"error":[{"message":"' . implode($validation->messages()->all(),'"},{"message":"') . '"}]}');
 		}
 		
-			
-
 		$s = $input_model;
 		
 		$lKey =0 ;
@@ -234,7 +201,6 @@ echo "d";
 		{
 			$lKey = $s[$this->key_field];
 		}
-	
 
 		$_model = $this->model_name;
 		$use_model = $_model::find($lKey);
@@ -250,32 +216,12 @@ echo "d";
 		}
 		
 		$use_model->assignTo($s);
-		// look for existing change
 		$use_model -> save();
 		$base_id = $use_model -> id;
-		
-		//echo Input::has('return');
-		/*
-		if (Input::has('return'))
-		{
-			echo "{" . $this->json_model_key . ":[" . json_encode($use_model['attributes']) . "]}";
-		}
-		else
-		{
-			//echo "saved";	
-			
-			//echo json_encode($use_model['attributes']);
-		}
-		*/
-
 
 		$message = '"success":[{"message":"Saved"}]';
 
-		//echo $message;
 		echo '{"' . $this->json_model_key . '":[' . json_encode($use_model['attributes']) . '] ,'  .  $message . '}';
-
-		//die('{"error":[{"message":"' . implode($validation->messages()->all(),'"},{"message":"') . '"}]}');
-		//echo $base_id;
 		exit ;
 	}
 
@@ -321,7 +267,6 @@ DELETE		/resource/{id}		destroy	resource.destroy
 */
 	public function index()
 	{
-		
 		$use_model = $this->getObjectList();
 
 		if (Request::segment(1)=='api')
@@ -353,8 +298,6 @@ DELETE		/resource/{id}		destroy	resource.destroy
 	}
 	public function update($id)
 	{
-		
-
 		if (Request::segment(1)=='api')
 		{
 
@@ -364,20 +307,17 @@ DELETE		/resource/{id}		destroy	resource.destroy
 		{
 			return $this->put_single_save($id);
 		}
-		
 	}
 	public function destroy($id)
 	{
-		//return $this->generateCallTrace();
-		//echo "destroy " . $id;
-		
+
 	}
 
 	function generateCallTrace()
 	{
 		$e = new Exception();
 		$trace = explode("\n", $e->getTraceAsString());
-		// reverse array to make steps line up chronologically
+
 		$trace = array_reverse($trace);
 		array_shift($trace); // remove {main}
 		array_pop($trace); // remove call to this method
@@ -386,7 +326,7 @@ DELETE		/resource/{id}		destroy	resource.destroy
 
 		for ($i = 0; $i < $length; $i++)
 		{
-		    $result[] = ($i + 1)  . ')' . substr($trace[$i], strpos($trace[$i], ' ')); // replace '#someNum' with '$i)', set the right ordering
+		    $result[] = ($i + 1)  . ')' . substr($trace[$i], strpos($trace[$i], ' '));
 		}
 
 		return "\t" . implode("\n\t", $result);
@@ -399,7 +339,6 @@ DELETE		/resource/{id}		destroy	resource.destroy
 
 	public function missingMethod($parameters = array())
 	{
-    //TODO Log this
 		DD($parameters)	;
 	}
 }

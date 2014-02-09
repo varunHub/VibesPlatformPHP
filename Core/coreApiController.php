@@ -33,11 +33,6 @@ abstract class coreApiController extends platformController implements IcoreApiC
 			;
 	}
 
-
-
-	
-
-
 /*
 http://laravel.com/docs/controllers#resource-controllers
 
