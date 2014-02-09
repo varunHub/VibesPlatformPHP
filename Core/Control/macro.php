@@ -246,7 +246,8 @@ if (! function_exists ( 'renderTabular' )) {
  * Make sure you include the jquery and raty js files.
  * Note that the big png files are stored in js/img path
  */
-Form::macro ( 'star', function ($name, $value = '') {
+Form::macro ( 'star', function ($name, $value = '') 
+{
 	$markup = '<div class="col-xs-3">';
 	$markup .= '<div id="' . $name . '"></div>' . errorMessage ( $name );
 	// scoreName does not help with storing data between submits.. so use another hidden
@@ -316,7 +317,8 @@ Form::macro ( 'radioScale', function ($data, $value = 0, $order = 'desc') {
  * max: maximum value of slider
  * name : the name of the control
  */
-Form::macro ( 'slider', function ($data, $value = '') {
+Form::macro ( 'slider', function ($data, $value = '')
+{
 	$leftAnchor = $data ['leftAnchor'];
 	$rightAnchor = $data ['rightAnchor'];
 	$min = $data ['min'];
