@@ -3,13 +3,15 @@
 
 File name templates for migration scripts
 
-**Table**
+###Table###
 
 	<Module> - XXXXXX - TN - <table> created to store <table description>.sql
 
 	<Module> - XXXXXX - TA - <field> added to table <table> to store <field description>.sql
 
 	<Module> - XXXXXX - TC - <field> type changed as <field type> on table <table>.sql
+
+
 
 **DB View**
 
@@ -20,7 +22,11 @@ File name templates for migration scripts
 
 
 
+
+## Script Templates for SQL Migration ##
+
 **Create Table**
+
 
 	delimiter $$
 
@@ -52,8 +58,22 @@ File name templates for migration scripts
 	ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 $$
 
 
+**Add Table Column**
+
+	ALTER TABLE `<prefix>_[actual_table_name_with_out_prefix]`
+		ADD COLUMN `<prefix>_[actual_view_name_with_out_prefix]` [field_type] [NULL] AFTER `[after_column]` $$
+
+**Change Table Column**
+
+	ALTER TABLE `<prefix>_[actual_table_name_with_out_prefix]` 
+		CHANGE COLUMN `[old_field_name]` `[new_field_name]` [field_type] [NOT NULL] $$
+
+
+## DB View ##
 
 **Create View - VIW** 
+
+DB View for only internally displayable data
 
 	delimiter $$
 	
@@ -76,8 +96,10 @@ File name templates for migration scripts
 	        ((a.active = 1))
 	    ORDER BY a.display_order $$
 
-**Create View - PUB** 
-
+**Create View - PUB**
+ 
+DB View for publicly displayable data
+ 
 	delimiter $$
 	
 	DROP VIEW IF EXISTS <prefix>_<view_name> $$
