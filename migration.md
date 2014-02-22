@@ -3,7 +3,7 @@
 
 File name templates for migration scripts
 
-Table
+**Table**
 
 	<Module> - XXXXXX - TN - <table> created to store <table description>.sql
 
@@ -11,7 +11,7 @@ Table
 
 	<Module> - XXXXXX - TC - <field> type changed as <field type> on table <table>.sql
 
-DB View
+**DB View**
 
     <Module> - XXXXXX - VN - <view> created with <table names,>.sql
 
@@ -60,7 +60,7 @@ DB View
 	DROP VIEW IF EXISTS <prefix>_<view_name> $$
 	
 	CREATE VIEW <prefix>_<view_name> AS
-	    select 
+	    SELECT 
 	        a.id AS id,
 	        a.grid_id AS grid_id,
 	        a.row_record AS row_record,
@@ -70,11 +70,11 @@ DB View
 	        a.title AS title,
 	        a.descript AS descript,
 	        a.locked AS locked
-	    from
+	    FROM
 	        <prefix>_<view_name> a
-	    where
+	    WHERE
 	        ((a.active = 1))
-	    order by a.display_order $$
+	    ORDER BY a.display_order $$
 
 **Create View - PUB** 
 
@@ -83,7 +83,7 @@ DB View
 	DROP VIEW IF EXISTS <prefix>_<view_name> $$
 	
 	CREATE VIEW <prefix>_<view_name> AS
-	    select 
+	    SELECT 
 	        a.id AS id,
 	        a.grid_id AS grid_id,
 	        a.row_record AS row_record,
@@ -93,10 +93,10 @@ DB View
 	        a.title AS title,
 	        a.descript AS descript,
 	        a.locked AS locked
-	    from
+	    FROM
 	        <prefix>_<view_name> a
-	    where
+	    WHERE
 	        ((a.online = 1)
 	            and (a.active = 1))
-	    order by a.display_order $$
+	    ORDER BY a.display_order $$
 
