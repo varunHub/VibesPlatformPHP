@@ -65,6 +65,11 @@ abstract class coreFullModel extends Eloquent implements ICoreFullModel
         return $obj ?: new static;
     }
 
+    /**
+     * Get validation rules and take care of own id on update
+     * @param int $id
+     * @return array
+     */
     public static function createValidationRules($id = null)
     {
         $rules = static::$rules;

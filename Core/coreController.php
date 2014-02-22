@@ -29,7 +29,10 @@ abstract class coreController extends platformController implements ICoreControl
 	protected $view_user_edit;
 	protected $view_user_show;
 
+	//protected $return_type	 = 0;
+
 	protected $key_field = 'id';
+	protected $primaryKey ='id';
 	protected $default_search_field = 'id';
 	protected $pagination_count = 10;
 	
@@ -65,11 +68,17 @@ abstract class coreController extends platformController implements ICoreControl
 
 		return $_model::select($this->search_field)
 				->where($this->search_field, 'like', '%' . trim($key) . '%')->get();
+
+		//return DB::select("select category_main from ina_dir_1_tbl_sys_category where " . $this->search_field . " like '%" . trim($key) . "%' ", array(1));
+		//return DB::table('tbl_sys_category')->select($this->search_field)->where($this->search_field, 'like', '%' . trim($key) . '%')->get();
+
 	}
 
 	public function similar_json_list($key = null)
 	{
 		$_model = new $this->model_name;
+		//$use_model = eloquent_to_json();
+		//DD(DB::table('biz_category')->toJson());
 		return json_encode($use_model['attributes']);
 	}
 
@@ -93,10 +102,24 @@ abstract class coreController extends platformController implements ICoreControl
 	}
 
 
-	private function getCurrentView()
+	protected function getCurrentEditView()
 	{
+		$lView = $this->view_edit;
 
+		if (Request::segment(1)=='user')
+		{
+			$lView = $this->view_user_edit;
+		}
+		if (Request::segment(1)=='admin')
+		{
+			$lView = $this->view_admin_edit;
+		}
+		return $lView;
 	}
+
+
+
+
 
 	public function get_single($id)
 	{
@@ -105,15 +128,21 @@ abstract class coreController extends platformController implements ICoreControl
 
 		$use_model = $_model::find($id);
 
+		$lView = $this->getCurrentEditView();
+
 		if (is_null($use_model))
 		{
 			$use_model = new $_model;
 			$use_model->make();
 		}
 
+
+
+		
+
 		$datax = "{" . $this->json_model_key .":[" . json_encode($use_model['attributes']) . "]}";
 
-		return View::make($this->view_edit)
+		return View::make($lView)
 			->with('datax', $datax)
 			->with('core_all_active_status', json_encode($_model::$core_all_active_status))
 			->with($this->json_model_key, $use_model)
@@ -128,7 +157,6 @@ abstract class coreController extends platformController implements ICoreControl
 
 	public function get_create()
 	{
-
 		return $this->get_single(0);
 	}
 
@@ -173,14 +201,36 @@ abstract class coreController extends platformController implements ICoreControl
 			$use_model -> save();
 			$base_id = $use_model -> id;
 		}
+		//echo Input::has('return');
+		/*
+		if (Input::has('return'))
+		{
+			echo "{" . $this->json_model_key . ":[" . json_encode($use_model['attributes']) . "]}";
+		}
+		else
+		{
+			//echo "saved";	
+			
+			//echo json_encode($use_model['attributes']);
+		}
+		*/
+
 
 		$message = '"success":[{"message":"Saved"}]';
+
+		//echo $message;
 		echo '{"' . $this->json_model_key . '":[' . json_encode($use_model['attributes']) . '] ,'  .  $message . '}';
+
+		//die('{"error":[{"message":"' . implode($validation->messages()->all(),'"},{"message":"') . '"}]}');
+		//echo $base_id;
 		exit ;
 	}
 
 	private function put_single_save($id)
 	{
+
+
+echo "d";
 
 		$input			= Input::all();
 		$errors			= array();
@@ -188,12 +238,15 @@ abstract class coreController extends platformController implements ICoreControl
 		$input_model 	= $input;
 		$_model 		= $this->model_name;
 
+		
 		$validation = $_model::validate($input_model);
 		if ($validation->fails())
 		{
 			die('{"error":[{"message":"' . implode($validation->messages()->all(),'"},{"message":"') . '"}]}');
 		}
 		
+			
+
 		$s = $input_model;
 		
 		$lKey =0 ;
@@ -201,6 +254,7 @@ abstract class coreController extends platformController implements ICoreControl
 		{
 			$lKey = $s[$this->key_field];
 		}
+	
 
 		$_model = $this->model_name;
 		$use_model = $_model::find($lKey);
@@ -216,12 +270,32 @@ abstract class coreController extends platformController implements ICoreControl
 		}
 		
 		$use_model->assignTo($s);
+		// look for existing change
 		$use_model -> save();
 		$base_id = $use_model -> id;
+		
+		//echo Input::has('return');
+		/*
+		if (Input::has('return'))
+		{
+			echo "{" . $this->json_model_key . ":[" . json_encode($use_model['attributes']) . "]}";
+		}
+		else
+		{
+			//echo "saved";	
+			
+			//echo json_encode($use_model['attributes']);
+		}
+		*/
+
 
 		$message = '"success":[{"message":"Saved"}]';
 
+		//echo $message;
 		echo '{"' . $this->json_model_key . '":[' . json_encode($use_model['attributes']) . '] ,'  .  $message . '}';
+
+		//die('{"error":[{"message":"' . implode($validation->messages()->all(),'"},{"message":"') . '"}]}');
+		//echo $base_id;
 		exit ;
 	}
 
@@ -267,6 +341,7 @@ DELETE		/resource/{id}		destroy	resource.destroy
 */
 	public function index()
 	{
+		
 		$use_model = $this->getObjectList();
 
 		if (Request::segment(1)=='api')
@@ -294,10 +369,13 @@ DELETE		/resource/{id}		destroy	resource.destroy
 	}
 	public function show($id)
 	{
+
 		return $this->get_single($id);
 	}
 	public function update($id)
 	{
+		
+
 		if (Request::segment(1)=='api')
 		{
 
@@ -307,17 +385,20 @@ DELETE		/resource/{id}		destroy	resource.destroy
 		{
 			return $this->put_single_save($id);
 		}
+		
 	}
 	public function destroy($id)
 	{
-
+		//return $this->generateCallTrace();
+		//echo "destroy " . $id;
+		
 	}
 
 	function generateCallTrace()
 	{
 		$e = new Exception();
 		$trace = explode("\n", $e->getTraceAsString());
-
+		// reverse array to make steps line up chronologically
 		$trace = array_reverse($trace);
 		array_shift($trace); // remove {main}
 		array_pop($trace); // remove call to this method
@@ -326,7 +407,7 @@ DELETE		/resource/{id}		destroy	resource.destroy
 
 		for ($i = 0; $i < $length; $i++)
 		{
-		    $result[] = ($i + 1)  . ')' . substr($trace[$i], strpos($trace[$i], ' '));
+		    $result[] = ($i + 1)  . ')' . substr($trace[$i], strpos($trace[$i], ' ')); // replace '#someNum' with '$i)', set the right ordering
 		}
 
 		return "\t" . implode("\n\t", $result);
@@ -339,6 +420,7 @@ DELETE		/resource/{id}		destroy	resource.destroy
 
 	public function missingMethod($parameters = array())
 	{
+    //TODO Log this
 		DD($parameters)	;
 	}
 }

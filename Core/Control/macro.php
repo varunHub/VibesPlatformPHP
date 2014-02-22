@@ -87,11 +87,22 @@ Form::macro('ctlTexter', function($name, $label = null){
 });
 
 
-Form::macro ( 'ngTextField', function ($name, $label = null, $ngmodel, $attributes = array()) {
+Form::macro ( 'ngTextField', function ($name, $label = null, $ngmodel, $width=6, $attributes = array()) {
 	$attributes = array_merge(array( 'ng-model' => $ngmodel ), $attributes );
 	$element = Form::text ( $name, null, fieldAttributes ( $name, $attributes ) );
-	return fieldWrapper ( $name, $element, $label );
+	return fieldWrapper ( $name, $element, $label, $width );
 });
+Form::macro ( 'ngTextareaField', function ($name, $label = null, $ngmodel, $width=12, $attributes = array()) {
+	if (! isset ( $attributes ['rows'] )) {	$attributes = array_merge ( $attributes, array ('rows' => 5));}
+	//if (! isset ( $attributes ['cols'] )) {	$attributes = array_merge ( $attributes, array ('rows' => 5));}
+	$attributes = array_merge(array( 'ng-model' => $ngmodel ), $attributes );
+	$element = Form::textarea ( $name, null, fieldAttributes ( $name, $attributes ) );
+	
+	return fieldWrapper ( $name, $element, $label, $width );
+});
+
+
+
 
 Form::macro ( 'textField', function ($name, $label = null, $value = null, $attributes = array()) {
 	$element = Form::text ( $name, $value, fieldAttributes ( $name, $attributes ) );
@@ -246,8 +257,7 @@ if (! function_exists ( 'renderTabular' )) {
  * Make sure you include the jquery and raty js files.
  * Note that the big png files are stored in js/img path
  */
-Form::macro ( 'star', function ($name, $value = '') 
-{
+Form::macro ( 'star', function ($name, $value = '') {
 	$markup = '<div class="col-xs-3">';
 	$markup .= '<div id="' . $name . '"></div>' . errorMessage ( $name );
 	// scoreName does not help with storing data between submits.. so use another hidden
@@ -317,8 +327,7 @@ Form::macro ( 'radioScale', function ($data, $value = 0, $order = 'desc') {
  * max: maximum value of slider
  * name : the name of the control
  */
-Form::macro ( 'slider', function ($data, $value = '')
-{
+Form::macro ( 'slider', function ($data, $value = '') {
 	$leftAnchor = $data ['leftAnchor'];
 	$rightAnchor = $data ['rightAnchor'];
 	$min = $data ['min'];
@@ -421,11 +430,11 @@ if (! function_exists ( 'checkBox' )) {
  * @return string - formatted html with all divs etc for final display on screen
  */
 if (! function_exists ( 'fieldWrapper' )) {
-	function fieldWrapper($field, $element, $label = null) {
+	function fieldWrapper($field, $element, $label = null, $width = 6) {
 		$out = '<div class="form-group';
 		$out .= fieldError ( $field ) . '">'; // set error class
 		$out .= fieldLabel ( $field, $label ); // gen label
-		$out .= '<div class="col-md-6">';
+		$out .= "<div class='col-md-" . $width . "'>";
 		$out .= $element;
 		$out .= errorMessage ( $field ); // display error message
 		$out .= '</div>';
@@ -477,7 +486,7 @@ if (! function_exists ( 'fieldError' )) {
  */
 if (! function_exists ( 'fieldLabel' )) {
 	function fieldLabel($name, $label) {
-		$out = '<label for="' . 'id-field-' . $name . '" class="control-label col-md-6">';
+		$out = '<label for="' . 'id-field-' . $name . '" class="control-label col-md-5">';
 		if ($label === null) {
 			// remove _id, [].. replace _ and - with space.
 			$out .= ucfirst ( str_replace ( array (
