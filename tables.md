@@ -29,9 +29,21 @@ In other word there are reserved fields which can not be used for other purpose.
 
 ### SQL Query Templates ###
 
+**Add Table Column**
+
+	ALTER TABLE `<prefix>_[actual_view_name_with_out_prefix]`
+		ADD COLUMN `<prefix>_[actual_view_name_with_out_prefix]` [field_type] [NULL] AFTER `[after_column]` $$
+
+**Change Table Column**
+
+	ALTER TABLE `<prefix>_[actual_view_name_with_out_prefix]` 
+		CHANGE COLUMN `[old_field_name]` `[new_field_name]` [field_type] [NOT NULL] $$
+
+
 
 ## Check List ##
 
 
 
 1. Is key fields set to `Auto Increment`
+1.   

@@ -1,4 +1,5 @@
 <?php namespace platform\core;
+//platform\core\coreFullModel
 
 use Controller;
 use View;
@@ -102,7 +103,7 @@ abstract class coreController extends platformController implements ICoreControl
 	}
 
 
-	protected function getCurrentEditView()
+	protected function getEditViewName()
 	{
 		$lView = $this->view_edit;
 
@@ -113,6 +114,36 @@ abstract class coreController extends platformController implements ICoreControl
 		if (Request::segment(1)=='admin')
 		{
 			$lView = $this->view_admin_edit;
+		}
+		return $lView;
+	}
+
+	protected function getShowViewName()
+	{
+		$lView = $this->view_edit;
+
+		if (Request::segment(1)=='user')
+		{
+			$lView = $this->view_user_show;
+		}
+		if (Request::segment(1)=='admin')
+		{
+			$lView = $this->view_admin_show;
+		}
+		return $lView;
+	}
+
+	protected function getListViewName()
+	{
+		$lView = $this->view_edit;
+
+		if (Request::segment(1)=='user')
+		{
+			$lView = $this->view_user_list;
+		}
+		if (Request::segment(1)=='admin')
+		{
+			$lView = $this->view_admin_list;
 		}
 		return $lView;
 	}
@@ -128,17 +159,13 @@ abstract class coreController extends platformController implements ICoreControl
 
 		$use_model = $_model::find($id);
 
-		$lView = $this->getCurrentEditView();
+		$lView = $this->getEditViewName();
 
 		if (is_null($use_model))
 		{
 			$use_model = new $_model;
 			$use_model->make();
 		}
-
-
-
-		
 
 		$datax = "{" . $this->json_model_key .":[" . json_encode($use_model['attributes']) . "]}";
 
@@ -344,12 +371,13 @@ DELETE		/resource/{id}		destroy	resource.destroy
 		
 		$use_model = $this->getObjectList();
 
+
 		if (Request::segment(1)=='api')
 		{
 			return Response::json($use_model);
 		}
 
-		return View::make($this->view_list)
+		return View::make($this->getListViewName())
 			-> with('title',  $this->model_title)
 			-> with($this->json_model_key, $use_model)
 			;
