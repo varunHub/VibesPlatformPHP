@@ -167,7 +167,13 @@ abstract class coreController extends platformController implements ICoreControl
 			$use_model->make();
 		}
 
+		if (Request::segment(1)=='api')
+		{
+			return Response::json($use_model);
+		}
+
 		$datax = "{" . $this->json_model_key .":[" . json_encode($use_model['attributes']) . "]}";
+
 
 		return View::make($lView)
 			->with('datax', $datax)
