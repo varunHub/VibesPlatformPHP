@@ -6,13 +6,29 @@ ModuleName
 
 
 
-	[ModuleName]
+	[Module]
 		|
 		|__Controller
+		|
 		|__ModelBase
+		|
 		|__ModelSystem
+		|
 		|__ModelView
+		|
 		|__View
+			|
+			|__admins
+			|	|__edit
+			|	|__show
+			|	|__list
+			|	|__home
+			|
+			|__member
+			|	|__edit
+			|	|__show
+			|	|__list
+			|	|__home
 			|
 			|__public
 			|	|__edit
@@ -20,18 +36,9 @@ ModuleName
 			|	|__list
 			|	|__home
 			|
-			|__admin
-			|	|__edit
-			|	|__show
-			|	|__list
-			|	|__home
+			|___layout
 			|
-			|__user
-				|__edit
-				|__show
-				|__list
-				|__home
-			
+			|___emails
 
 
 

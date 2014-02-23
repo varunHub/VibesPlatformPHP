@@ -2,16 +2,19 @@
 	
 	
 	@section('search')
+
 	{{ Form::open(array('url' => 'admin/staff', 'class'=>'navbar-form pull-left')) }}
 		<div class="form-group">
 			<input type="text" class="form-control" placeholder="Search" name="search_key" id="search_key" value="{{ Input::get('search_key') }}" />
 		</div>
 		<button type="submit" class="btn btn-primary"><i class='icon-search'></i> Search</button>
 	{{ Form::close() }}
+
 	@stop
 	
 	
 	@section('content')
+
 	<!-- nspace module\directory\view\admin\list\parking -->
 	<div class="span15">
 	<h2>Staff  <small>/list /admin</small></h2>
@@ -23,13 +26,11 @@
 		<thead>
 			<tr>
 				<th>ID</th>
-				<th>Parking</th>
-				<th>Image</th>
-				<th>Status</th>
+				<th>[Key-field]</th>
 			</tr>
 		</thead>
 		<tbody>
-			@foreach($magBizStaff as $r)
+			@foreach($[object] as $r)
 			<tr>
 				<td>
 					<span class="pull-right">
@@ -45,19 +46,19 @@
 					@if ($r->active==0) 
 						<span class="text-muted">
 					@endif
-						{{ $r->parking_title }}
+						{{ $r->[key_field] }}
 					@if ($r->active==0) 
 						</span>
 					@endif
 				</td>
-				<td>{{ $r->parking_image }}</td>
+				<td>{{ $r->[fields] }}</td>
 				<td>{{ $r->active }}</td>
 			</tr>
 			@endforeach
 		</tbody>
 	</table> 
 	
-	{{ $magBizStaff->links() }}
+	{{ $[object]->links() }}
 	
 	</div>
 	

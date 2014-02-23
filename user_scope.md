@@ -1,11 +1,12 @@
-3 main aresas of authorisation 
+3 main areas of authorization
+ 
 - public
 	no auto required
 	all public pages which should be accessed by web boots
 
-- user
+- user/member
 	required auth
-	user need to have auth to acess
+	user need to have auth to access
 
 - admin
 	required auth

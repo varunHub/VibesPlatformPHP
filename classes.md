@@ -5,31 +5,37 @@ This document is created with the interest of making the development process bas
 ## Controller Class Template
 
 	<?php namespace module\[module];
-	//module\[module]\sysCategoryCont
+	//module\[module]\[objectname]Cont
 	
 	use Controller;
 	use View;
 	use platform\core as Core;
 	
-	class sysCategoryCont extends Core\coreController
+	use module\[module]\modelbase 		as mb; //t:tbl
+	use module\[module]\modelsystem 	as ms; //t:sys
+	use module\[module]\modelmember		as mm; //v:mem
+	use module\[module]\modelpublic 	as mp; //v:pub
+	use module\[module]\modelview 		as mv; //v:viw
+
+	class [objectname]Cont extends Core\coreController
 	{
 		protected function setup()
 		{
-			$this->json_model_key	= "sysCategory";
-			$this->model_title		= "Category";
-			$this->model_name		= "module\[module]\[sub_model]\sysCategory";
-			$this->search_field 	= "category_main";
+			$this->json_model_key	= '[objectname]';
+			$this->model_title		= '<Model title>';
+			$this->model_name		= 'module\[module]\[sub_model]\[objectname]';
+			$this->search_field 	= 'id';
 
-			$this->view_list		= 'public.list.list_sys_[object]';
-			$this->view_show		= 'public.show.show_sys_[object]';
+			$this->view_list		= 'public.list.public_list_[objectname]';
+			$this->view_show		= 'public.show.public_show_[objectname]';
 
-			$this->view_user_list	= 'user.list.list_sys_[object]';
-			$this->view_user_show	= 'user.edit.show_sys_[object]';
-			$this->view_user_edit	= 'user.edit.edit_sys_[object]';
+			$this->view_user_list	= 'member.list.member_list_[objectname]';
+			$this->view_user_show	= 'member.show.member_show_[objectname]';
+			$this->view_user_edit	= 'member.edit.member_edit_[objectname]';
 
-			$this->view_admin_list	= 'admin.list.list_sys_[object]';
-			$this->view_admin_show	= 'admin.list.show_sys_[object]';
-			$this->view_admin_edit	= 'admin.edit.edit_sys_[object]';
+			$this->view_admin_list	= 'admins.list.admins_list_[objectname]';
+			$this->view_admin_show	= 'admins.show.admins_show_[objectname]';
+			$this->view_admin_edit	= 'admins.edit.admins_edit_[objectname]';
 		}
 
 		/* Custom route handlers
@@ -49,16 +55,16 @@ This document is created with the interest of making the development process bas
 
 ## TAB Class Template ##
 
-	<?php namespace module\[directory];
-	//module\[module]\[bizTransportStation]
+	<?php namespace module\[module];
+	//module\[module]\[objectname]
 
 	use platform\core as Core;
 	use module\[module] as Base;
 	
-	class [bizTransportStation] extends Core\coreFullModel implements Core\ICoreFullModel
+	class [objectname] extends Core\coreFullModel implements Core\ICoreFullModel
 	{
 		protected $primaryKey 	= '[id]';
-		protected $table 		= "[dir_tbl_biz_trans_station]";
+		protected $table 		= '[dir_tbl_biz_trans_station]';
 	
 		public static $rules = array(
 				'id'			=> 'required',
@@ -117,5 +123,7 @@ This document is created with the interest of making the development process bas
 
 
 
-15/02/2014 4:57:36 PM 
+
+Last update : 
+22/02/2014 12:22:56 PM 
  
