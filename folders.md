@@ -8,27 +8,31 @@ ModuleName
 
 	[Module]
 		|
-		|__Controller
+		|__ Migration
 		|
-		|__ModelBase
+		|__ Controller
 		|
-		|__ModelSystem
+		|__ ModelBase
 		|
-		|__ModelView
+		|__ ModelSystem
 		|
-		|__View
+		|__ ModelView
+		|
+		|__ View
 			|
-			|__admins
-			|	|__edit
-			|	|__show
-			|	|__list
-			|	|__home
+			|__ admins
+			|	|__ edit
+			|	|__ show
+			|	|__ list
+			|	|__ home
+			|	|__ quick
 			|
-			|__member
-			|	|__edit
-			|	|__show
-			|	|__list
-			|	|__home
+			|__ member
+			|	|__ edit
+			|	|__ show
+			|	|__ list
+			|	|__ home
+			|	|__ quick
 			|
 			|__public
 			|	|__edit
